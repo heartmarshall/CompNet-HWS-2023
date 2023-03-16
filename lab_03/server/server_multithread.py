@@ -3,23 +3,31 @@ import os
 import socket
 import sys
 import time
+import click
 import threading
+
+from collections import deque
 
 LOCAL_STORAGE_PATH = os.path.join(os.getcwd(), 'localfiles')
 
 
-def run_server(port=53210):
+@click.command()
+@click.argument('port', required=False, default=8008)
+@click.option('conc_level', '-c', '--concurrencyLevel', required=False, default=10, type=int)
+def run_server(port, conc_level):
     serv_sock = create_serv_sock(port)
+    semaphore = threading.Semaphore(conc_level)
     cid = 0
     while True:
         client_sock = accept_client_conn(serv_sock, cid)
+        semaphore.acquire()
         t = threading.Thread(target=serve_client,
-                         args=(client_sock, cid))
+                             args=(client_sock, cid, semaphore))
         t.start()
         cid += 1
 
 
-def serve_client(client_sock, cid):
+def serve_client(client_sock, cid, semaphore):
     """
     Считывает запрос клиента, обрабатывает его и отправляет клиенту ответ.
     """
@@ -29,6 +37,7 @@ def serve_client(client_sock, cid):
     else:
         response = handle_request(request)
         write_response(client_sock, response, cid)
+    semaphore.release()
 
 
 def create_serv_sock(serv_port, host_address="127.0.0.1"):
@@ -93,4 +102,4 @@ def write_response(client_sock, response, cid):
 
 
 if __name__ == '__main__':
-    run_server(port=int(sys.argv[1]))
+    run_server()
