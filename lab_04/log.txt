@@ -1,0 +1,4 @@
+[2023-03-23 11:52:25: INFO] GET /python.org: 301 Moved Permanently
+[2023-03-23 11:55:13: INFO] GET /gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file1.html: 200 OK
+[2023-03-23 11:55:13: INFO] GET /favicon.ico: 523
+[2023-03-23 11:56:41: INFO] GET /gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file1.html: 200 OK
