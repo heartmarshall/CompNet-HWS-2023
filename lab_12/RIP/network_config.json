@@ -1,0 +1,55 @@
+{
+    "routers": [
+      {
+        "ip_address": "A",
+        "routes": [
+          {
+            "destination": "B",
+            "next_hop": "B",
+            "metric": 1
+          }
+        ]
+      },
+      {
+        "ip_address": "B",
+        "routes": [
+          {
+            "destination": "A",
+            "next_hop": "A",
+            "metric": 1
+          },
+          {
+            "destination": "C",
+            "next_hop": "C",
+            "metric": 1
+          }
+        ]
+      },
+      {
+        "ip_address": "C",
+        "routes": [
+          {
+            "destination": "B",
+            "next_hop": "B",
+            "metric": 1
+          },
+          {
+            "destination": "D",
+            "next_hop": "D",
+            "metric": 1
+          }
+        ]
+      },
+      {
+        "ip_address": "D",
+        "routes": [
+          {
+            "destination": "C",
+            "next_hop": "C",
+            "metric": 1
+          }
+        ]
+      }
+    ]
+  }
+  
