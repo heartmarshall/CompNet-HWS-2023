@@ -2,13 +2,10 @@ from flask import Flask, jsonify, request, send_file
 from uuid import uuid4
 import os
 
-
 app = Flask(__name__)
 
 ICONS_FOLDER = os.path.join(os.getcwd(), 'icons')
 app.config['ICONS_FOLDER'] = ICONS_FOLDER
-
-
 
 # список продуктов в оперативной памяти
 products = [
@@ -16,11 +13,13 @@ products = [
     {"id": 2, "name": "Product 2", "description": "Description for product 2", "icon": "2.jpg"}
 ]
 
+
 def id_generator():
     num = len(products)
     while True:
         num += 1
         yield num
+
 
 free_id = id_generator()
 
@@ -29,12 +28,14 @@ free_id = id_generator()
 def get_products_list():
     return jsonify(products)
 
+
 @app.route('/products/<int:id>', methods=['GET'])
 def get_product(id):
     for product in products:
         if product['id'] == id:
             return jsonify(product), 200
     return jsonify({'error': 'Product not found'}), 400
+
 
 @app.route('/products/<int:id>/get-icon', methods=['GET'])
 def get_product_icon(id):
@@ -46,7 +47,7 @@ def get_product_icon(id):
     return jsonify({'error': 'Product not found'}), 200
 
 
-#TODO узнать как можно одним запросом устанавливать и название и описание и картинку.
+# TODO узнать как можно одним запросом устанавливать и название и описание и картинку.
 @app.route('/products', methods=['POST'])
 def add_product():
     request_data = request.get_json()
